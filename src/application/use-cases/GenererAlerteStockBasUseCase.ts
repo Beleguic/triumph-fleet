@@ -2,7 +2,6 @@
 
 import { IStockRepository } from '../ports/IStockRepository';
 import { INotificationRepository } from '../ports/INotificationRepository';
-import { GenererAlerteStockBasOutput } from './GenererAlerteStockBasUseCase';
 import { Notification } from '../../domain/entities/Notification';
 import { Stock } from '../../domain/entities/Stock';
 import { Client } from '../../domain/entities/Client';

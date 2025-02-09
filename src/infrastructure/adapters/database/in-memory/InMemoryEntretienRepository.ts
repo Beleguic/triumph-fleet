@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryEntretienRepository.ts
 
-import { IEntretienRepository } from '../../../application/ports/IEntretienRepository';
-import { Entretien } from '../../../domain/entities/Entretien';
+import { IEntretienRepository } from './../../../../application/ports/IEntretienRepository';
+import { Entretien } from './../../../../domain/entities/Entretien';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Entretien.

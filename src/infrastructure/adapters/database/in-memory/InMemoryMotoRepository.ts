@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryMotoRepository.ts
 
-import { IMotoRepository } from '../../../application/ports/IMotoRepository';
-import { Moto } from '../../../domain/entities/Moto';
+import { IMotoRepository } from './../../../../application/ports/IMotoRepository';
+import { Moto } from './../../../../domain/entities/Moto';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Moto.

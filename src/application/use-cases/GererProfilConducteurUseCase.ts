@@ -2,7 +2,6 @@
 
 import { IConducteurRepository } from '../ports/IConducteurRepository';
 import { Conducteur } from '../../domain/entities/Conducteur';
-import { GererProfilConducteurInput, GererProfilConducteurOutput } from './GererProfilConducteurUseCase';
 
 /**
  * DTO d'entrée pour gérer le profil d'un conducteur.

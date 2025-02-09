@@ -4,7 +4,6 @@ import { IEssaiRepository } from '../ports/IEssaiRepository';
 import { IMotoRepository } from '../ports/IMotoRepository';
 import { IConducteurRepository } from '../ports/IConducteurRepository';
 import { Essai } from '../../domain/entities/Essai';
-import { PlanifierEssaiMotoInput, PlanifierEssaiMotoOutput } from './PlanifierEssaiMotoUseCase';
 
 /**
  * DTO d'entrée pour planifier un essai de moto.

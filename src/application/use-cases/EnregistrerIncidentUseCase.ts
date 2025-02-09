@@ -5,7 +5,6 @@ import { IEssaiRepository } from '../ports/IEssaiRepository';
 import { IConducteurRepository } from '../ports/IConducteurRepository';
 import { IMotoRepository } from '../ports/IMotoRepository';
 import { Incident } from '../../domain/entities/Incident';
-import { EnregistrerIncidentInput, EnregistrerIncidentOutput } from './EnregistrerIncidentUseCase';
 
 /**
  * DTO d'entrée pour enregistrer un incident.

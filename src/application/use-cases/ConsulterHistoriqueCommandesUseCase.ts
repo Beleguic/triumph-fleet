@@ -1,7 +1,6 @@
 // src/application/use-cases/ConsulterHistoriqueCommandesUseCase.ts
 
 import { ICommandePieceRepository } from '../ports/ICommandePieceRepository';
-import { ConsulterHistoriqueCommandesInput, ConsulterHistoriqueCommandesOutput } from './ConsulterHistoriqueCommandesUseCase';
 
 /**
  * DTO d'entrée pour consulter l'historique des commandes de pièces.

@@ -2,7 +2,6 @@
 
 import { INotificationRepository } from '../ports/INotificationRepository';
 import { Notification } from '../../domain/entities/Notification';
-import { MarquerNotificationCommeLueInput, GererNotificationsOutput } from './GererNotificationsUseCase';
 
 /**
  * DTO d'entrée pour marquer une notification comme lue.

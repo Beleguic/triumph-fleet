@@ -3,7 +3,6 @@
 import { Stock } from '../../domain/entities/Stock';
 import { IPieceRepository } from '../ports/IPieceRepository';
 import { IStockRepository } from '../ports/IStockRepository';
-import { GererStockPiecesInput, GererStockPiecesOutput } from './GererStockPiecesUseCase';
 
 /**
  * DTO d'entrée pour gérer (créer ou mettre à jour) le stock d'une pièce.

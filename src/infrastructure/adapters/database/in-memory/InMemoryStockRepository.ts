@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryStockRepository.ts
 
-import { IStockRepository } from '../../../application/ports/IStockRepository';
-import { Stock } from '../../../domain/entities/Stock';
+import { IStockRepository } from './../../../../application/ports/IStockRepository';
+import { Stock } from './../../../../domain/entities/Stock';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Stock.

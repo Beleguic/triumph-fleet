@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryPanneRepository.ts
 
-import { IPanneRepository } from '../../../application/ports/IPanneRepository';
-import { Panne } from '../../../domain/entities/Panne';
+import { IPanneRepository } from './../../../../application/ports/IPanneRepository';
+import { Panne } from './../../../../domain/entities/Panne';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Panne.

@@ -2,7 +2,6 @@
 
 import { Essai } from '../../domain/entities/Essai';
 import { IEssaiRepository } from '../ports/IEssaiRepository';
-import { EnregistrerEssaiMotoInput, EnregistrerEssaiMotoOutput } from './EnregistrerEssaiMotoUseCase';
 
 /**
  * DTO d'entrée pour enregistrer un essai terminé.

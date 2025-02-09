@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryEssaiRepository.ts
 
-import { IEssaiRepository } from '../../../application/ports/IEssaiRepository';
-import { Essai } from '../../../domain/entities/Essai';
+import { IEssaiRepository } from './../../../../application/ports/IEssaiRepository';
+import { Essai } from './../../../../domain/entities/Essai';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Essai.
