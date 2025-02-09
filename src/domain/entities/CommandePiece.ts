@@ -11,7 +11,7 @@ export interface CommandePieceProps {
   dateCommande: Date;        // Date de la commande
   quantite: number;          // Quantité commandée (doit être supérieure à zéro)
   cout: number;              // Coût total de la commande (doit être positif ou nul)
-  delaiLivraison?: number; // délai de livraison en jours (optionnel)
+  delaiLivraison?: number;   // Délai de livraison en jours (optionnel)
   statut: string;            // Statut de la commande (ex : "en cours", "livrée", etc.)
 }
 
@@ -26,6 +26,7 @@ export class CommandePiece {
   private _dateCommande: Date;
   private _quantite: number;
   private _cout: number;
+  private _delaiLivraison?: number; // Ajout du délai de livraison
   private _statut: string;
 
   constructor(props: CommandePieceProps) {
@@ -41,12 +42,16 @@ export class CommandePiece {
     if (!props.statut.trim()) {
       throw new Error("Le statut de la commande ne peut pas être vide.");
     }
+    if (props.delaiLivraison !== undefined && props.delaiLivraison < 0) {
+      throw new Error("Le délai de livraison ne peut pas être négatif.");
+    }
 
     this._id = props.id;
     this._piece = props.piece;
     this._dateCommande = props.dateCommande;
     this._quantite = props.quantite;
     this._cout = props.cout;
+    this._delaiLivraison = props.delaiLivraison;
     this._statut = props.statut;
   }
 
@@ -100,6 +105,18 @@ export class CommandePiece {
     this._cout = value;
   }
 
+  // Getter et setter pour le délai de livraison
+  public get delaiLivraison(): number | undefined {
+    return this._delaiLivraison;
+  }
+
+  public set delaiLivraison(value: number | undefined) {
+    if (value !== undefined && value < 0) {
+      throw new Error("Le délai de livraison ne peut pas être négatif.");
+    }
+    this._delaiLivraison = value;
+  }
+
   // Getter et setter pour le statut de la commande
   public get statut(): string {
     return this._statut;
@@ -122,6 +139,7 @@ export class CommandePiece {
       dateCommande: this._dateCommande,
       quantite: this._quantite,
       cout: this._cout,
+      delaiLivraison: this._delaiLivraison, // Ajout du délai de livraison dans le JSON
       statut: this._statut,
     };
   }

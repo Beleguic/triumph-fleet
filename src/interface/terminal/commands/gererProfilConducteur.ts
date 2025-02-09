@@ -100,6 +100,6 @@ export const gererProfilConducteurCLI = async () => {
       console.log(chalk.gray(`📩 Contact : ${result.conducteur.contactInfo}`));
     }
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

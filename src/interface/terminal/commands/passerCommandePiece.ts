@@ -67,6 +67,6 @@ export const passerCommandePieceCLI = async () => {
     }
     console.log(chalk.cyan(`📋 Statut : ${result.commande.statut}`));
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

@@ -100,6 +100,6 @@ export const enregistrerIncidentCLI = async () => {
       console.log(chalk.cyan(`🏍️ Lié à la moto ID : ${result.incident.moto.id}`));
     }
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

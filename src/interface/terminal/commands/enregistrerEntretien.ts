@@ -56,11 +56,15 @@ export const enregistrerEntretienCLI = async () => {
     });
 
     console.log(chalk.green(`✅ Entretien enregistré avec succès pour la moto ID ${result.entretien.moto.id} !`));
-    console.log(chalk.blue(`📅 Date de réalisation : ${result.entretien.dateRealisee.toDateString()}`));
+    console.log(
+      result.entretien.dateRealisee
+        ? chalk.blue(`📅 Date de réalisation : ${result.entretien.dateRealisee.toDateString()}`)
+        : chalk.gray(`📅 Date de réalisation : Non renseignée`)
+    );
     console.log(chalk.yellow(`💰 Coût : ${result.entretien.cout} €`));
     console.log(chalk.magenta(`📋 Description : ${result.entretien.description}`));
     console.log(chalk.cyan(`🏍️ Kilométrage après entretien : ${result.entretien.kilometrage} km\n`));
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

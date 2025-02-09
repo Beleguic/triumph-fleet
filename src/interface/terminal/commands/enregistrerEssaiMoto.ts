@@ -43,9 +43,13 @@ export const enregistrerEssaiMotoCLI = async () => {
     });
 
     console.log(chalk.green(`✅ Essai enregistré avec succès pour la moto ID ${result.essai.moto.id} !`));
-    console.log(chalk.blue(`📅 Date de fin : ${result.essai.dateFin.toDateString()}`));
+    console.log(
+        result.essai.dateFin
+          ? chalk.blue(`📅 Date de fin : ${result.essai.dateFin.toDateString()}`)
+          : chalk.gray(`📅 Date de fin : Non renseignée`)
+      );
     console.log(chalk.magenta(`🏍️ Kilométrage parcouru : ${result.essai.kilometrageParcouru} km`));
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

@@ -8,12 +8,13 @@ import { Client } from './Client';
  */
 export interface NotificationProps {
   id?: number;              // Identifiant optionnel, généré par la base de données
-  entretien: Entretien;      // Notification liée à un entretien planifié
+  entretien?: Entretien;      // Notification liée à un entretien (optionnel ✅)
   client: Client;            // Notification destinée à un client ou gestionnaire
   message: string;           // Message de la notification
   dateNotification: Date;    // Date d'envoi de la notification
   estLu: boolean;            // Indique si la notification a été lue
 }
+
 
 /**
  * Classe représentant l'entité Notification dans le domaine.
@@ -23,7 +24,7 @@ export interface NotificationProps {
  */
 export class Notification {
   private readonly _id?: number;
-  private _entretien: Entretien;
+  private _entretien?: Entretien;
   private _client: Client;
   private _message: string;
   private _dateNotification: Date;
@@ -50,7 +51,7 @@ export class Notification {
   }
 
   // Getter et setter pour l'entretien associé
-  public get entretien(): Entretien {
+  public get entretien(): Entretien | undefined{
     return this._entretien;
   }
 
@@ -106,7 +107,7 @@ export class Notification {
   public toJSON() {
     return {
       id: this._id,
-      entretien: typeof this._entretien.toJSON === 'function' ? this._entretien.toJSON() : this._entretien,
+      entretien: this._entretien ? (typeof this._entretien.toJSON === 'function' ? this._entretien.toJSON() : this._entretien) : undefined,
       client: typeof this._client.toJSON === 'function' ? this._client.toJSON() : this._client,
       message: this._message,
       dateNotification: this._dateNotification,

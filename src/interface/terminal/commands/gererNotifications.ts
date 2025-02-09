@@ -65,6 +65,6 @@ export const gererNotificationsCLI = async () => {
     console.log(chalk.green(`✅ Notification ID ${result.id} marquée comme lue !`));
     console.log(chalk.blue(`📩 Message : ${result.message}`));
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

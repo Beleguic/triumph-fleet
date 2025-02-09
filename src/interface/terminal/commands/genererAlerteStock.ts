@@ -29,6 +29,6 @@ export const genererAlerteStockCLI = async () => {
       });
     }
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

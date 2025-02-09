@@ -71,7 +71,12 @@ export const enregistrerPanneCLI = async () => {
       sousGarantie: reponses.sousGarantie
     });
 
-    console.log(chalk.green(`✅ Panne enregistrée avec succès pour la moto ID ${result.panne.moto.id} !`));
+    console.log(
+        result.panne.moto
+          ? chalk.green(`✅ Panne enregistrée avec succès pour la moto ID ${result.panne.moto.id} !`)
+          : chalk.gray(`✅ Panne enregistrée, mais aucune moto associée.`)
+      );
+      
     console.log(chalk.blue(`📅 Date de l'incident : ${result.panne.dateEvent.toDateString()}`));
     console.log(chalk.yellow(`💰 Coût : ${result.panne.cout} €`));
     console.log(chalk.magenta(`📋 Description : ${result.panne.description}`));
@@ -80,6 +85,6 @@ export const enregistrerPanneCLI = async () => {
       console.log(chalk.gray(`🔧 Entretien lié : ID ${result.panne.entretien.id}`));
     }
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

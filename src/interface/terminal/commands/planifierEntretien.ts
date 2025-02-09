@@ -2,9 +2,9 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { PlanifierEntretienUseCase } from './../../../application/use-cases/PlanifierEntretienUseCase';
-import { InMemoryMotoRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryMotoRepository';
-import { InMemoryEntretienRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryEntretienRepository';
+import { PlanifierEntretienUseCase } from '../../../application/use-cases/PlanifierEntretienUseCase';
+import { InMemoryMotoRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryMotoRepository';
+import { InMemoryEntretienRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryEntretienRepository';
 
 export const planifierEntretienCLI = async () => {
   console.log(chalk.green('\n🛠️ Planification d\'un entretien moto\n'));
@@ -20,7 +20,9 @@ export const planifierEntretienCLI = async () => {
       type: 'input',
       name: 'motoId',
       message: 'Entrez l\'ID de la moto concernée :',
-      validate: (input) => (!isNaN(parseInt(input)) && parseInt(input) > 0) ? true : 'Veuillez entrer un identifiant numérique valide.'
+      validate: (input) => (!isNaN(parseInt(input)) && parseInt(input) > 0) 
+        ? true 
+        : 'Veuillez entrer un identifiant numérique valide.'
     },
     {
       type: 'list',
@@ -32,13 +34,17 @@ export const planifierEntretienCLI = async () => {
       type: 'input',
       name: 'datePlanifiee',
       message: 'Entrez la date de l\'entretien (YYYY-MM-DD) :',
-      validate: (input) => !isNaN(Date.parse(input)) ? true : 'Veuillez entrer une date valide au format YYYY-MM-DD.'
+      validate: (input) => !isNaN(Date.parse(input)) 
+        ? true 
+        : 'Veuillez entrer une date valide au format YYYY-MM-DD.'
     },
     {
       type: 'input',
       name: 'kilometrage',
       message: 'Entrez le kilométrage prévu pour l\'entretien :',
-      validate: (input) => (!isNaN(parseInt(input)) && parseInt(input) >= 0) ? true : 'Veuillez entrer un kilométrage valide (nombre positif).'
+      validate: (input) => (!isNaN(parseInt(input)) && parseInt(input) >= 0) 
+        ? true 
+        : 'Veuillez entrer un kilométrage valide (nombre positif).'
     }
   ]);
 
@@ -52,10 +58,14 @@ export const planifierEntretienCLI = async () => {
     });
 
     console.log(chalk.green(`✅ Entretien planifié avec succès pour la moto ID ${result.entretien.moto.id} !`));
-    console.log(chalk.blue(`📅 Date de l'entretien : ${result.entretien.datePlanifiee.toDateString()}`));
+    console.log(
+      result.entretien.datePlanifiee
+        ? chalk.blue(`📅 Date de l'entretien : ${result.entretien.datePlanifiee.toDateString()}`)
+        : chalk.gray(`📅 Date de l'entretien : Non renseignée`)
+    );
     console.log(chalk.yellow(`🔧 Type d'entretien : ${result.entretien.typeEntretien}`));
     console.log(chalk.magenta(`🏍️ Kilométrage prévu : ${result.entretien.kilometrage} km\n`));
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

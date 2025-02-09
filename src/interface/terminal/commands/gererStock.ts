@@ -50,6 +50,6 @@ export const gererStockCLI = async () => {
       console.log(chalk.yellow(`🚨 Seuil d'alerte : ${result.stock.seuilAlerte}`));
     }
   } catch (error) {
-    console.log(chalk.red(`❌ Erreur: ${error.message}`));
+    console.log(chalk.red(`❌ Erreur: ${(error as Error).message}`));
   }
 };

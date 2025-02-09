@@ -4,7 +4,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 
 // Importation des commandes CLI
-import { planifierEntretienCLI } from './commands/planifierEntretien';
+import { planifierEntretienCLI } from './commands/planifierEntretien'
 import { envoyerRappelEntretienCLI } from './commands/envoyerRappelEntretien';
 import { enregistrerEntretienCLI } from './commands/enregistrerEntretien';
 import { enregistrerPanneCLI } from './commands/enregistrerPanne';
@@ -15,7 +15,7 @@ import { consulterHistoriqueCommandesCLI } from './commands/consulterHistoriqueC
 import { gererProfilConducteurCLI } from './commands/gererProfilConducteur';
 import { planifierEssaiMotoCLI } from './commands/planifierEssaiMoto';
 import { enregistrerEssaiMotoCLI } from './commands/enregistrerEssaiMoto';
-import { enregistrerIncidentCLI } from './commands/enregistrerIncident';
+import { enregistrerIncidentCLI } from './commands/enregistrerIncident'
 import { gererNotificationsCLI } from './commands/gererNotifications';
 
 export const afficherMenuPrincipal = async () => {
