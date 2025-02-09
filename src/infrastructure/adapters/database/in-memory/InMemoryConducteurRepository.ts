@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryConducteurRepository.ts
 
-import { IConducteurRepository } from '../../../application/ports/IConducteurRepository';
-import { Conducteur } from '../../../domain/entities/Conducteur';
+import { IConducteurRepository } from './../../../../application/ports/IConducteurRepository';
+import { Conducteur } from './../../../../domain/entities/Conducteur';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Conducteur.

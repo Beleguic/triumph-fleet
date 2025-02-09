@@ -2,7 +2,7 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { GererStockPiecesUseCase } from './../../../application/use-cases/GererStockPiecesUseCase';
+import { GererStockPiecesUseCase } from './../../../application/use-cases/GererStockPieceUseCase';
 import { InMemoryStockRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryStockRepository';
 import { InMemoryPieceRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryPieceRepository';
 

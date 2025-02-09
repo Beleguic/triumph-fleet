@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryNotificationRepository.ts
 
-import { INotificationRepository } from '../../../application/ports/INotificationRepository';
-import { Notification } from '../../../domain/entities/Notification';
+import { INotificationRepository } from './../../../../application/ports/INotificationRepository';
+import { Notification } from './../../../../domain/entities/Notification';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Notification.

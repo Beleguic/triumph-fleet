@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryPieceRepository.ts
 
-import { IPieceRepository } from '../../../application/ports/IPieceRepository';
-import { Piece } from '../../../domain/entities/Piece';
+import { IPieceRepository } from './../../../../application/ports/IPieceRepository';
+import { Piece } from './../../../../domain/entities/Piece';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Piece.

@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryCommandePieceRepository.ts
 
-import { ICommandePieceRepository } from '../../../application/ports/ICommandePieceRepository';
-import { CommandePiece } from '../../../domain/entities/CommandePiece';
+import { ICommandePieceRepository } from './../../../../application/ports/ICommandePieceRepository';
+import { CommandePiece } from './../../../../domain/entities/CommandePiece';
 
 /**
  * Implémentation en mémoire du repository pour l'entité CommandePiece.

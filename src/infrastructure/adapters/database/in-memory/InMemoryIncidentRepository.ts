@@ -1,7 +1,7 @@
 // src/infrastructure/adapters/database/in-memory/InMemoryIncidentRepository.ts
 
-import { IIncidentRepository } from '../../../application/ports/IIncidentRepository';
-import { Incident } from '../../../domain/entities/Incident';
+import { IIncidentRepository } from './../../../../application/ports/IIncidentRepository';
+import { Incident } from './../../../../domain/entities/Incident';
 
 /**
  * Implémentation en mémoire du repository pour l'entité Incident.
