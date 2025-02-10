@@ -1,16 +1,9 @@
-// src/interface/commands/gererProfilConducteur.ts
-
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { GererProfilConducteurUseCase } from './../../../application/use-cases/GererProfilConducteurUseCase';
-import { InMemoryConducteurRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryConducteurRepository';
+import { gererProfilConducteurUseCase } from '../../../infrastructure/factories/ConducteurFactory';
 
 export const gererProfilConducteurCLI = async () => {
   console.log(chalk.green('\n🚗 Gestion du profil des conducteurs\n'));
-
-  // Instanciation des repositories en mémoire
-  const conducteurRepo = new InMemoryConducteurRepository();
-  const useCase = new GererProfilConducteurUseCase(conducteurRepo);
 
   // Demander l’action à effectuer
   const actionReponse = await inquirer.prompt([
@@ -29,9 +22,9 @@ export const gererProfilConducteurCLI = async () => {
 
   if (actionReponse.action === 'Retour') return;
 
-  // Si l'utilisateur veut consulter tous les conducteurs
+  // ✅ Appel de `getAllConducteurs()` au lieu d'accéder directement au repository
   if (actionReponse.action === 'Consulter tous les conducteurs') {
-    const conducteurs = await conducteurRepo.findAll();
+    const conducteurs = await gererProfilConducteurUseCase.getAllConducteurs();
     if (conducteurs.length === 0) {
       console.log(chalk.yellow('📭 Aucun conducteur enregistré.'));
     } else {
@@ -83,7 +76,7 @@ export const gererProfilConducteurCLI = async () => {
   ]);
 
   try {
-    const result = await useCase.execute({
+    const result = await gererProfilConducteurUseCase.execute({
       id: reponses.id ? parseInt(reponses.id) : undefined,
       nom: reponses.nom,
       permis: reponses.permis,

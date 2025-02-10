@@ -1,5 +1,3 @@
-// src/application/ports/IConducteurRepository.ts
-
 import { Conducteur } from '../../domain/entities/Conducteur';
 
 /**
@@ -14,7 +12,8 @@ export interface IConducteurRepository {
   findById(id: number): Promise<Conducteur | null>;
 
   /**
-   * Enregistre (ou met à jour) un conducteur.
+   * Enregistre un nouveau conducteur ou met à jour un conducteur existant.
+   * Si l'ID n'est pas défini, un nouvel ID auto-incrémenté est attribué.
    * @param conducteur L'instance de Conducteur à enregistrer.
    * @returns Une promesse contenant le conducteur enregistré.
    */
@@ -22,6 +21,7 @@ export interface IConducteurRepository {
 
   /**
    * Met à jour un conducteur existant.
+   * Lève une erreur si le conducteur n'existe pas.
    * @param conducteur L'instance de Conducteur à mettre à jour.
    * @returns Une promesse contenant le conducteur mis à jour.
    */
@@ -32,4 +32,11 @@ export interface IConducteurRepository {
    * @returns Une promesse contenant un tableau de Conducteur.
    */
   findAll(): Promise<Conducteur[]>;
+
+  /**
+   * Supprime un conducteur par son identifiant.
+   * @param id L'identifiant du conducteur à supprimer.
+   * @returns Une promesse indiquant si la suppression a réussi (true) ou si le conducteur n'a pas été trouvé (false).
+   */
+  delete(id: number): Promise<boolean>;
 }

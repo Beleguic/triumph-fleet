@@ -1,14 +1,26 @@
-// src/infrastructure/adapters/database/in-memory/InMemoryConducteurRepository.ts
-
 import { IConducteurRepository } from './../../../../application/ports/IConducteurRepository';
 import { Conducteur } from './../../../../domain/entities/Conducteur';
 
 /**
- * Implémentation en mémoire du repository pour l'entité Conducteur.
+ * Implémentation en mémoire du repository pour l'entité Conducteur avec un Singleton.
  */
 export class InMemoryConducteurRepository implements IConducteurRepository {
-  // Stock interne pour les conducteurs
-  private conducteurs: Conducteur[] = [];
+  private static instance: InMemoryConducteurRepository;
+  private conducteurs: Map<number, Conducteur> = new Map();
+  private lastId: number = 0; // Auto-incrémentation des IDs
+
+  // Constructeur privé pour empêcher l'instanciation directe
+  private constructor() {}
+
+  /**
+   * Retourne l'unique instance du repository.
+   */
+  public static getInstance(): InMemoryConducteurRepository {
+    if (!InMemoryConducteurRepository.instance) {
+      InMemoryConducteurRepository.instance = new InMemoryConducteurRepository();
+    }
+    return InMemoryConducteurRepository.instance;
+  }
 
   /**
    * Recherche un conducteur par son identifiant.
@@ -16,52 +28,43 @@ export class InMemoryConducteurRepository implements IConducteurRepository {
    * @returns Une promesse contenant le conducteur trouvé ou null si non trouvé.
    */
   async findById(id: number): Promise<Conducteur | null> {
-    const conducteur = this.conducteurs.find(c => c.id === id);
-    return conducteur || null;
+    return this.conducteurs.get(id) || null;
   }
 
   /**
-   * Enregistre (ou met à jour) un conducteur.
-   * Si le conducteur n'a pas d'identifiant, un nouvel identifiant est généré.
+   * Enregistre un nouveau conducteur ou met à jour un conducteur existant.
+   * Si l'ID n'est pas défini, un nouvel ID auto-incrémenté est attribué.
    * @param conducteur L'instance de Conducteur à enregistrer.
    * @returns Une promesse contenant le conducteur enregistré.
    */
   async save(conducteur: Conducteur): Promise<Conducteur> {
-    if (conducteur.id === undefined) {
-      // Génération d'un nouvel identifiant basé sur le maximum des identifiants existants.
-      const newId =
-        this.conducteurs.length > 0 ? Math.max(...this.conducteurs.map(c => c.id || 0)) + 1 : 1;
-      // Pour contourner la propriété privée readonly (_id) avec un cast en any.
-      (conducteur as any)._id = newId;
-      this.conducteurs.push(conducteur);
-      return conducteur;
-    } else {
-      // Si le conducteur possède déjà un identifiant, on le met à jour ou on l'ajoute s'il n'existe pas.
-      const index = this.conducteurs.findIndex(c => c.id === conducteur.id);
-      if (index !== -1) {
-        this.conducteurs[index] = conducteur;
-      } else {
-        this.conducteurs.push(conducteur);
-      }
-      return conducteur;
-    }
+    const id = conducteur.id ?? ++this.lastId; // Si l'ID est undefined, on incrémente lastId
+  
+    // Création d'une nouvelle instance avec un ID toujours défini
+    conducteur = new Conducteur({
+      id, 
+      nom: conducteur.nom, 
+      permis: conducteur.permis, 
+      experienceAnnees: conducteur.experienceAnnees,
+      contactInfo: conducteur.contactInfo // Facultatif
+    });
+  
+    this.conducteurs.set(id, conducteur); // Maintenant, id est toujours un `number`
+    return conducteur;
   }
+  
 
   /**
    * Met à jour un conducteur existant.
+   * Lève une erreur si le conducteur n'existe pas.
    * @param conducteur L'instance de Conducteur à mettre à jour.
    * @returns Une promesse contenant le conducteur mis à jour.
-   * @throws Une erreur si le conducteur n'existe pas.
    */
   async update(conducteur: Conducteur): Promise<Conducteur> {
-    if (conducteur.id === undefined) {
-      throw new Error("Le conducteur doit avoir un identifiant pour être mis à jour.");
+    if (!conducteur.id || !this.conducteurs.has(conducteur.id)) {
+      throw new Error(`Conducteur avec l'ID ${conducteur.id} non trouvé.`);
     }
-    const index = this.conducteurs.findIndex(c => c.id === conducteur.id);
-    if (index === -1) {
-      throw new Error(`Conducteur avec l'id ${conducteur.id} non trouvé.`);
-    }
-    this.conducteurs[index] = conducteur;
+    this.conducteurs.set(conducteur.id, conducteur);
     return conducteur;
   }
 
@@ -70,6 +73,19 @@ export class InMemoryConducteurRepository implements IConducteurRepository {
    * @returns Une promesse contenant un tableau de Conducteur.
    */
   async findAll(): Promise<Conducteur[]> {
-    return this.conducteurs;
+    return Array.from(this.conducteurs.values());
+  }
+
+  /**
+   * Supprime un conducteur par son identifiant.
+   * @param id L'identifiant du conducteur à supprimer.
+   * @returns Une promesse indiquant si la suppression a réussi (true) ou si le conducteur n'a pas été trouvé (false).
+   */
+  async delete(id: number): Promise<boolean> {
+    if (!this.conducteurs.has(id)) {
+      return false;
+    }
+    this.conducteurs.delete(id);
+    return true;
   }
 }
