@@ -33,4 +33,11 @@ export interface INotificationRepository {
    * @returns Une promesse contenant un tableau de Notification.
    */
   findAll(): Promise<Notification[]>;
+
+   /**
+   * Supprime une notifiction par son identifiant.
+   * @param id L'identifiant de la notification à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+   delete(id: number): Promise<boolean>;
 }

@@ -1,14 +1,26 @@
-// src/infrastructure/adapters/database/in-memory/InMemoryIncidentRepository.ts
-
 import { IIncidentRepository } from './../../../../application/ports/IIncidentRepository';
 import { Incident } from './../../../../domain/entities/Incident';
 
 /**
- * Implémentation en mémoire du repository pour l'entité Incident.
+ * Implémentation en mémoire du repository pour l'entité Incident avec un Singleton et une `Map`.
  */
 export class InMemoryIncidentRepository implements IIncidentRepository {
-  // Stock interne pour les incidents
-  private incidents: Incident[] = [];
+  private static instance: InMemoryIncidentRepository;
+  private incidents: Map<number, Incident> = new Map(); // Utilisation de Map pour stocker les incidents
+  private lastId: number = 0; // Auto-incrémentation des IDs
+
+  // Constructeur privé pour empêcher l'instanciation directe
+  private constructor() {}
+
+  /**
+   * Retourne l'unique instance du repository.
+   */
+  public static getInstance(): InMemoryIncidentRepository {
+    if (!InMemoryIncidentRepository.instance) {
+      InMemoryIncidentRepository.instance = new InMemoryIncidentRepository();
+    }
+    return InMemoryIncidentRepository.instance;
+  }
 
   /**
    * Recherche un incident par son identifiant.
@@ -16,35 +28,30 @@ export class InMemoryIncidentRepository implements IIncidentRepository {
    * @returns Une promesse contenant l'incident trouvé ou null si aucune correspondance n'est trouvée.
    */
   async findById(id: number): Promise<Incident | null> {
-    const incident = this.incidents.find(i => i.id === id);
-    return incident || null;
+    return this.incidents.get(id) || null;
   }
 
   /**
    * Enregistre (ou met à jour) un incident.
-   * Si l'incident n'a pas d'identifiant, un nouvel identifiant est généré.
+   * Si l'incident n'a pas d'identifiant, un nouvel identifiant sera généré.
    * @param incident L'instance d'Incident à enregistrer.
    * @returns Une promesse contenant l'incident enregistré.
    */
   async save(incident: Incident): Promise<Incident> {
-    if (incident.id === undefined) {
-      // Génération d'un nouvel identifiant basé sur le maximum des identifiants existants.
-      const newId =
-        this.incidents.length > 0 ? Math.max(...this.incidents.map(i => i.id || 0)) + 1 : 1;
-      // Contournement de la propriété privée en lecture seule (_id) avec un cast en any.
-      (incident as any)._id = newId;
-      this.incidents.push(incident);
-      return incident;
-    } else {
-      // Si l'incident existe déjà, on le met à jour ou on l'ajoute s'il n'existe pas.
-      const index = this.incidents.findIndex(i => i.id === incident.id);
-      if (index !== -1) {
-        this.incidents[index] = incident;
-      } else {
-        this.incidents.push(incident);
-      }
-      return incident;
-    }
+    const id = incident.id ?? ++this.lastId; // Garantir un ID unique
+
+    incident = new Incident({
+      id,
+      essai: incident.essai, // Essai associé (optionnel)
+      conducteur: incident.conducteur, // Conducteur concerné (optionnel)
+      moto: incident.moto, // Moto concernée (optionnel)
+      dateIncident: incident.dateIncident, // Date de l'incident
+      description: incident.description, // Description détaillée
+      severite: incident.severite, // Niveau de gravité
+    });
+
+    this.incidents.set(id, incident); // Ajout ou mise à jour dans la Map
+    return incident;
   }
 
   /**
@@ -57,11 +64,10 @@ export class InMemoryIncidentRepository implements IIncidentRepository {
     if (incident.id === undefined) {
       throw new Error("L'incident doit avoir un identifiant pour être mis à jour.");
     }
-    const index = this.incidents.findIndex(i => i.id === incident.id);
-    if (index === -1) {
-      throw new Error(`Incident avec l'id ${incident.id} non trouvé.`);
+    if (!this.incidents.has(incident.id)) {
+      throw new Error(`Incident avec l'ID ${incident.id} non trouvé.`);
     }
-    this.incidents[index] = incident;
+    this.incidents.set(incident.id, incident);
     return incident;
   }
 
@@ -70,6 +76,19 @@ export class InMemoryIncidentRepository implements IIncidentRepository {
    * @returns Une promesse contenant un tableau d'Incident.
    */
   async findAll(): Promise<Incident[]> {
-    return this.incidents;
+    return Array.from(this.incidents.values());
+  }
+
+  /**
+   * Supprime un incident par son identifiant.
+   * @param id L'identifiant de l'incident à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  async delete(id: number): Promise<boolean> {
+    if (!this.incidents.has(id)) {
+      return false;
+    }
+    this.incidents.delete(id);
+    return true;
   }
 }

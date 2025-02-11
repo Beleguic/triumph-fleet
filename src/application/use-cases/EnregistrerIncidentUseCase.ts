@@ -1,5 +1,3 @@
-// src/application/use-cases/EnregistrerIncidentUseCase.ts
-
 import { IIncidentRepository } from '../ports/IIncidentRepository';
 import { IEssaiRepository } from '../ports/IEssaiRepository';
 import { IConducteurRepository } from '../ports/IConducteurRepository';
@@ -26,10 +24,9 @@ export interface EnregistrerIncidentOutput {
   incident: Incident;
 }
 
-// src/application/use-cases/EnregistrerIncidentUseCase.ts
-
-
-
+/**
+ * Use Case pour enregistrer un incident.
+ */
 export class EnregistrerIncidentUseCase {
   constructor(
     private readonly incidentRepository: IIncidentRepository,

@@ -33,4 +33,11 @@ export interface IPanneRepository {
    * @returns Une promesse contenant un tableau de Panne.
    */
   findAll(): Promise<Panne[]>;
+
+   /**
+   * Supprime une panne par son identifiant.
+   * @param id L'identifiant de la panne à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+   delete(id: number): Promise<boolean>;
 }

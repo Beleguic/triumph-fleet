@@ -1,5 +1,3 @@
-// src/application/use-cases/GererNotificationsUseCase.ts
-
 import { INotificationRepository } from '../ports/INotificationRepository';
 import { Notification } from '../../domain/entities/Notification';
 
@@ -18,18 +16,14 @@ export interface GererNotificationsOutput {
   notifications: Notification[];
 }
 
-
-// src/application/use-cases/GererNotificationsUseCase.ts
-
-
-
+/**
+ * Use Case pour gérer les notifications.
+ */
 export class GererNotificationsUseCase {
-  constructor(
-    private readonly notificationRepository: INotificationRepository
-  ) {}
+  constructor(private readonly notificationRepository: INotificationRepository) {}
 
   /**
-   * Exécute le use case pour récupérer toutes les notifications ou une notification spécifique.
+   * Exécute le use case pour récupérer toutes les notifications.
    * @returns Une promesse contenant la liste des notifications.
    */
   public async consulterNotifications(): Promise<GererNotificationsOutput> {

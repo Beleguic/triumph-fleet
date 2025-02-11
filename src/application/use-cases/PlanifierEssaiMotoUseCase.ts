@@ -1,5 +1,3 @@
-// src/application/use-cases/PlanifierEssaiMotoUseCase.ts
-
 import { IEssaiRepository } from '../ports/IEssaiRepository';
 import { IMotoRepository } from '../ports/IMotoRepository';
 import { IConducteurRepository } from '../ports/IConducteurRepository';
@@ -23,11 +21,9 @@ export interface PlanifierEssaiMotoOutput {
   essai: Essai;
 }
 
-
-// src/application/use-cases/PlanifierEssaiMotoUseCase.ts
-
-
-
+/**
+ * Use Case pour planifier un essai de moto.
+ */
 export class PlanifierEssaiMotoUseCase {
   constructor(
     private readonly essaiRepository: IEssaiRepository,
@@ -35,6 +31,11 @@ export class PlanifierEssaiMotoUseCase {
     private readonly conducteurRepository: IConducteurRepository
   ) {}
 
+  /**
+   * Exécute le use case pour planifier un essai.
+   * @param input Données d'entrée contenant les informations pour l'essai.
+   * @returns L'essai planifié.
+   */
   public async execute(input: PlanifierEssaiMotoInput): Promise<PlanifierEssaiMotoOutput> {
     // Vérification de l'existence de la moto
     const moto = await this.motoRepository.findById(input.motoId);

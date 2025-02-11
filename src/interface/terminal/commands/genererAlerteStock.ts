@@ -1,21 +1,14 @@
 // src/interface/commands/genererAlerteStock.ts
 
 import chalk from 'chalk';
-import { GenererAlerteStockBasUseCase } from './../../../application/use-cases/GenererAlerteStockBasUseCase';
-import { InMemoryStockRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryStockRepository';
-import { InMemoryNotificationRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryNotificationRepository';
+import { genererAlerteStockBasUseCase } from '../../../infrastructure/factories/GenererAlerteStockBasFactory';
 
 export const genererAlerteStockCLI = async () => {
   console.log(chalk.green('\n🚨 Vérification des niveaux de stock en cours...\n'));
 
-  // Instanciation des repositories en mémoire
-  const stockRepo = new InMemoryStockRepository();
-  const notificationRepo = new InMemoryNotificationRepository();
-  const useCase = new GenererAlerteStockBasUseCase(stockRepo, notificationRepo);
-
   try {
     // Exécuter le use case pour générer les alertes
-    const result = await useCase.execute();
+    const result = await genererAlerteStockBasUseCase.execute();
 
     if (result.notifications.length === 0) {
       console.log(chalk.yellow('✅ Aucun stock critique détecté. Aucune alerte générée.'));

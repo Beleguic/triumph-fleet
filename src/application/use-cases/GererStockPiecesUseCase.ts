@@ -1,25 +1,14 @@
-// src/application/use-cases/GererStockPiecesUseCase.ts
-
 import { Stock } from '../../domain/entities/Stock';
-import { IPieceRepository } from '../ports/IPieceRepository';
 import { IStockRepository } from '../ports/IStockRepository';
+import { IPieceRepository } from '../ports/IPieceRepository';
 
 /**
  * DTO d'entrée pour gérer (créer ou mettre à jour) le stock d'une pièce.
  */
 export interface GererStockPiecesInput {
-  /**
-   * Identifiant de la pièce détachée concernée.
-   */
-  pieceId: number;
-  /**
-   * Quantité à enregistrer pour cette pièce.
-   */
-  quantite: number;
-  /**
-   * Optionnel : Seuil d'alerte pour le stock. Si non renseigné, le seuil sera fixé par défaut à 0.
-   */
-  seuilAlerte?: number;
+  pieceId: number;  // Identifiant de la pièce détachée concernée.
+  quantite: number;  // Quantité à enregistrer pour cette pièce.
+  seuilAlerte?: number;  // Optionnel : Seuil d'alerte pour le stock.
 }
 
 /**
@@ -29,16 +18,20 @@ export interface GererStockPiecesOutput {
   stock: Stock;
 }
 
-// src/application/use-cases/GererStockPiecesUseCase.ts
-
-
-
+/**
+ * Use Case pour gérer le stock des pièces détachées.
+ */
 export class GererStockPiecesUseCase {
   constructor(
     private readonly stockRepository: IStockRepository,
     private readonly pieceRepository: IPieceRepository
   ) {}
 
+  /**
+   * Exécute le use case pour créer ou mettre à jour le stock d'une pièce.
+   * @param input Données d'entrée contenant les informations sur le stock.
+   * @returns Le stock mis à jour ou créé.
+   */
   public async execute(input: GererStockPiecesInput): Promise<GererStockPiecesOutput> {
     // Vérifier que la pièce existe
     const piece = await this.pieceRepository.findById(input.pieceId);

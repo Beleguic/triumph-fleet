@@ -2,17 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { PlanifierEntretienUseCase } from '../../../application/use-cases/PlanifierEntretienUseCase';
-import { InMemoryMotoRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryMotoRepository';
-import { InMemoryEntretienRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryEntretienRepository';
+import { planifierEntretienUseCase } from '../../../infrastructure/factories/PlanifierEntretienFactory';
 
 export const planifierEntretienCLI = async () => {
   console.log(chalk.green('\n🛠️ Planification d\'un entretien moto\n'));
-
-  // Instanciation des repositories en mémoire
-  const motoRepo = new InMemoryMotoRepository();
-  const entretienRepo = new InMemoryEntretienRepository();
-  const useCase = new PlanifierEntretienUseCase(motoRepo, entretienRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -50,7 +43,7 @@ export const planifierEntretienCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await planifierEntretienUseCase.execute({
       motoId: parseInt(reponses.motoId),
       typeEntretien: reponses.typeEntretien,
       datePlanifiee: new Date(reponses.datePlanifiee),

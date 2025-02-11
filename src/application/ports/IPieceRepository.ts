@@ -33,4 +33,11 @@ export interface IPieceRepository {
    * @returns Une promesse contenant un tableau de Piece.
    */
   findAll(): Promise<Piece[]>;
+
+   /**
+   * Supprime une piece par son identifiant.
+   * @param id L'identifiant de la piece à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+   delete(id: number): Promise<boolean>;
 }

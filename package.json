@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/interface/terminal/cli.js"
+    "start": "node dist/interface/terminal/cli.js",
+    "build": "npx tsc"
   },
   "keywords": [],
   "author": "",

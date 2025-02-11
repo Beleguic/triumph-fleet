@@ -15,8 +15,11 @@ import { consulterHistoriqueCommandesCLI } from './commands/consulterHistoriqueC
 import { gererProfilConducteurCLI } from './commands/gererProfilConducteur';
 import { planifierEssaiMotoCLI } from './commands/planifierEssaiMoto';
 import { enregistrerEssaiMotoCLI } from './commands/enregistrerEssaiMoto';
-import { enregistrerIncidentCLI } from './commands/enregistrerIncident'
+import { enregistrerIncidentCLI } from './commands/enregistrerIncident';
 import { gererNotificationsCLI } from './commands/gererNotifications';
+import { gererClientCLI } from './commands/gererClient';
+import { gererModeleMotoCLI } from './commands/gererModeleMoto';
+import { gererMotoCLI } from './commands/gererMoto';
 
 export const afficherMenuPrincipal = async () => {
   const choix = await inquirer.prompt([
@@ -38,6 +41,9 @@ export const afficherMenuPrincipal = async () => {
         'Enregistrer un essai moto',
         'Enregistrer un incident',
         'Gérer les notifications',
+        'Gérer les clients',
+        'Gérer les modèles de moto',
+        'Gérer les motos',
         'Quitter'
       ]
     }
@@ -82,6 +88,15 @@ export const afficherMenuPrincipal = async () => {
       break;
     case 'Gérer les notifications':
       await gererNotificationsCLI();
+      break;
+    case 'Gérer les clients':
+      await gererClientCLI();
+      break;
+    case 'Gérer les modèles de moto':
+      await gererModeleMotoCLI();
+      break;
+    case 'Gérer les motos':
+      await gererMotoCLI();
       break;
     case 'Quitter':
       console.log(chalk.red('Fermeture de Triumph CLI...'));

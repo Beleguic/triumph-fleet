@@ -1,14 +1,26 @@
-// src/infrastructure/adapters/database/in-memory/InMemoryPieceRepository.ts
-
 import { IPieceRepository } from './../../../../application/ports/IPieceRepository';
 import { Piece } from './../../../../domain/entities/Piece';
 
 /**
- * Implémentation en mémoire du repository pour l'entité Piece.
+ * Implémentation en mémoire du repository pour l'entité Piece avec un Singleton et une `Map`.
  */
 export class InMemoryPieceRepository implements IPieceRepository {
-  // Stock interne pour les instances de Piece
-  private pieces: Piece[] = [];
+  private static instance: InMemoryPieceRepository;
+  private pieces: Map<number, Piece> = new Map(); // Utilisation de Map pour stocker les pièces
+  private lastId: number = 0; // Auto-incrémentation des IDs
+
+  // Constructeur privé pour empêcher l'instanciation directe
+  private constructor() {}
+
+  /**
+   * Retourne l'unique instance du repository.
+   */
+  public static getInstance(): InMemoryPieceRepository {
+    if (!InMemoryPieceRepository.instance) {
+      InMemoryPieceRepository.instance = new InMemoryPieceRepository();
+    }
+    return InMemoryPieceRepository.instance;
+  }
 
   /**
    * Recherche une pièce par son identifiant.
@@ -16,8 +28,7 @@ export class InMemoryPieceRepository implements IPieceRepository {
    * @returns Une promesse contenant la pièce trouvée ou null si aucune pièce n'est trouvée.
    */
   async findById(id: number): Promise<Piece | null> {
-    const piece = this.pieces.find(p => p.id === id);
-    return piece || null;
+    return this.pieces.get(id) || null;
   }
 
   /**
@@ -27,24 +38,17 @@ export class InMemoryPieceRepository implements IPieceRepository {
    * @returns Une promesse contenant la pièce enregistrée.
    */
   async save(piece: Piece): Promise<Piece> {
-    if (piece.id === undefined) {
-      // Génération d'un nouvel identifiant en se basant sur le maximum des identifiants existants
-      const newId =
-        this.pieces.length > 0 ? Math.max(...this.pieces.map(p => p.id || 0)) + 1 : 1;
-      // Contournement de la propriété privée en lecture seule (_id) avec un cast en any
-      (piece as any)._id = newId;
-      this.pieces.push(piece);
-      return piece;
-    } else {
-      // Si la pièce existe déjà, on la met à jour ou on l'ajoute si elle n'est pas trouvée
-      const index = this.pieces.findIndex(p => p.id === piece.id);
-      if (index !== -1) {
-        this.pieces[index] = piece;
-      } else {
-        this.pieces.push(piece);
-      }
-      return piece;
-    }
+    const id = piece.id ?? ++this.lastId; // Garantir un ID unique
+
+    piece = new Piece({
+      id,
+      nom: piece.nom,
+      description: piece.description,
+      prix: piece.prix,
+    });
+
+    this.pieces.set(id, piece); // Ajout ou mise à jour dans la Map
+    return piece;
   }
 
   /**
@@ -57,11 +61,10 @@ export class InMemoryPieceRepository implements IPieceRepository {
     if (piece.id === undefined) {
       throw new Error("La pièce doit avoir un identifiant pour être mise à jour.");
     }
-    const index = this.pieces.findIndex(p => p.id === piece.id);
-    if (index === -1) {
-      throw new Error(`Pièce avec l'id ${piece.id} non trouvée.`);
+    if (!this.pieces.has(piece.id)) {
+      throw new Error(`Pièce avec l'ID ${piece.id} non trouvée.`);
     }
-    this.pieces[index] = piece;
+    this.pieces.set(piece.id, piece);
     return piece;
   }
 
@@ -70,6 +73,19 @@ export class InMemoryPieceRepository implements IPieceRepository {
    * @returns Une promesse contenant un tableau de Piece.
    */
   async findAll(): Promise<Piece[]> {
-    return this.pieces;
+    return Array.from(this.pieces.values());
+  }
+
+  /**
+   * Supprime une pièce par son identifiant.
+   * @param id L'identifiant de la pièce à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  async delete(id: number): Promise<boolean> {
+    if (!this.pieces.has(id)) {
+      return false;
+    }
+    this.pieces.delete(id);
+    return true;
   }
 }

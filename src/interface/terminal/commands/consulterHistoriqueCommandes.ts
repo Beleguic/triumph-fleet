@@ -2,15 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { ConsulterHistoriqueCommandesUseCase } from './../../../application/use-cases/ConsulterHistoriqueCommandesUseCase';
-import { InMemoryCommandePieceRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryCommandePieceRepository';
+import { consulterHistoriqueCommandesUseCase } from '../../../infrastructure/factories/ConsulterHistoriqueCommandesFactory';
 
 export const consulterHistoriqueCommandesCLI = async () => {
   console.log(chalk.green('\n📜 Consultation de l\'historique des commandes de pièces\n'));
-
-  // Instanciation des repositories en mémoire
-  const commandeRepo = new InMemoryCommandePieceRepository();
-  const useCase = new ConsulterHistoriqueCommandesUseCase(commandeRepo);
 
   // Demander si l'utilisateur souhaite filtrer par pièce
   const reponses = await inquirer.prompt([
@@ -30,7 +25,7 @@ export const consulterHistoriqueCommandesCLI = async () => {
 
   try {
     // Exécuter le use case avec le filtre éventuel
-    const result = await useCase.execute({
+    const result = await consulterHistoriqueCommandesUseCase.execute({
       pieceId: reponses.filtrerParPiece ? parseInt(reponses.pieceId) : undefined
     });
 

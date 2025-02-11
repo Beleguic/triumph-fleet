@@ -1,5 +1,3 @@
-// src/application/use-cases/EnregistrerPanneUseCase.ts
-
 import { Panne } from '../../domain/entities/Panne';
 import { IPanneRepository } from '../ports/IPanneRepository';
 import { IMotoRepository } from '../ports/IMotoRepository';
@@ -11,30 +9,12 @@ import { IEntretienRepository } from '../ports/IEntretienRepository';
  * Au moins une des associations (entretienId ou motoId) doit être fournie.
  */
 export interface EnregistrerPanneInput {
-  /**
-   * Optionnel : L'identifiant de l'entretien associé à la panne.
-   */
-  entretienId?: number;
-  /**
-   * Optionnel : L'identifiant de la moto concernée par la panne.
-   */
-  motoId?: number;
-  /**
-   * Date de survenue de la panne.
-   */
-  dateEvent: Date;
-  /**
-   * Description de la panne (détails de la défaillance ou de la réparation à effectuer).
-   */
-  description: string;
-  /**
-   * Coût associé à la panne (réparation, pièces, etc.).
-   */
-  cout: number;
-  /**
-   * Indique si la panne est couverte par la garantie.
-   */
-  sousGarantie?: boolean;
+  entretienId?: number;       // Optionnel : L'identifiant de l'entretien associé à la panne.
+  motoId?: number;            // Optionnel : L'identifiant de la moto concernée par la panne.
+  dateEvent: Date;            // Date de survenue de la panne.
+  description: string;        // Description de la panne (détails de la défaillance ou de la réparation à effectuer).
+  cout: number;               // Coût associé à la panne (réparation, pièces, etc.).
+  sousGarantie?: boolean;     // Indique si la panne est couverte par la garantie.
 }
 
 /**
@@ -44,10 +24,9 @@ export interface EnregistrerPanneOutput {
   panne: Panne;
 }
 
-// src/application/use-cases/EnregistrerPanneUseCase.ts
-
-
-
+/**
+ * Use Case pour enregistrer une panne.
+ */
 export class EnregistrerPanneUseCase {
   constructor(
     private readonly panneRepository: IPanneRepository,
@@ -55,6 +34,11 @@ export class EnregistrerPanneUseCase {
     private readonly entretienRepository: IEntretienRepository
   ) {}
 
+  /**
+   * Exécute le use case pour enregistrer une panne.
+   * @param input Données d'entrée contenant les informations de la panne.
+   * @returns La panne enregistrée.
+   */
   public async execute(input: EnregistrerPanneInput): Promise<EnregistrerPanneOutput> {
     // Vérifier qu'au moins une association (entretien ou moto) est fournie.
     if (!input.entretienId && !input.motoId) {
@@ -96,4 +80,3 @@ export class EnregistrerPanneUseCase {
     return { panne: savedPanne };
   }
 }
-

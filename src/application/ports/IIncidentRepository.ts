@@ -32,4 +32,11 @@ export interface IIncidentRepository {
    * @returns Une promesse contenant un tableau d'Incident.
    */
   findAll(): Promise<Incident[]>;
+
+   /**
+   * Supprime un incident par son identifiant.
+   * @param id L'identifiant de l'incident à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+   delete(id: number): Promise<boolean>;
 }

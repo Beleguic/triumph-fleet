@@ -2,15 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { GererNotificationsUseCase } from './../../../application/use-cases/GererNotificationsUseCase';
-import { InMemoryNotificationRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryNotificationRepository';
+import { gererNotificationsUseCase } from '../../../infrastructure/factories/GererNotificationsFactory';
 
 export const gererNotificationsCLI = async () => {
   console.log(chalk.green('\n📩 Gestion des notifications\n'));
-
-  // Instanciation du repository en mémoire
-  const notificationRepo = new InMemoryNotificationRepository();
-  const useCase = new GererNotificationsUseCase(notificationRepo);
 
   // Demander l’action à effectuer
   const actionReponse = await inquirer.prompt([
@@ -30,7 +25,7 @@ export const gererNotificationsCLI = async () => {
 
   // Si l'utilisateur veut consulter toutes les notifications
   if (actionReponse.action === 'Consulter les notifications') {
-    const result = await useCase.consulterNotifications();
+    const result = await gererNotificationsUseCase.consulterNotifications();
     
     if (result.notifications.length === 0) {
       console.log(chalk.yellow('📭 Aucune notification enregistrée.'));
@@ -60,7 +55,7 @@ export const gererNotificationsCLI = async () => {
   ]);
 
   try {
-    const result = await useCase.marquerNotificationCommeLue({ notificationId: parseInt(reponses.notificationId) });
+    const result = await gererNotificationsUseCase.marquerNotificationCommeLue({ notificationId: parseInt(reponses.notificationId) });
 
     console.log(chalk.green(`✅ Notification ID ${result.id} marquée comme lue !`));
     console.log(chalk.blue(`📩 Message : ${result.message}`));

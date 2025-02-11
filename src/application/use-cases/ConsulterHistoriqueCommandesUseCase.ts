@@ -1,5 +1,3 @@
-// src/application/use-cases/ConsulterHistoriqueCommandesUseCase.ts
-
 import { ICommandePieceRepository } from '../ports/ICommandePieceRepository';
 import { CommandePiece } from '../../domain/entities/CommandePiece';
 
@@ -18,19 +16,21 @@ export interface ConsulterHistoriqueCommandesOutput {
   commandes: CommandePiece[];
 }
 
-// src/application/use-cases/ConsulterHistoriqueCommandesUseCase.ts
-
-
-
+/**
+ * Use Case pour consulter l'historique des commandes de pièces.
+ */
 export class ConsulterHistoriqueCommandesUseCase {
-  constructor(
-    private readonly commandePieceRepository: ICommandePieceRepository
-  ) {}
+  constructor(private readonly commandePieceRepository: ICommandePieceRepository) {}
 
-  public async execute(input: ConsulterHistoriqueCommandesInput): Promise<ConsulterHistoriqueCommandesOutput> {
+  /**
+   * Exécute le use case pour récupérer l'historique des commandes de pièces.
+   * @param input Optionnel : identifiant d'une pièce pour filtrer les commandes.
+   * @returns Une liste des commandes enregistrées.
+   */
+  public async execute(input?: ConsulterHistoriqueCommandesInput): Promise<ConsulterHistoriqueCommandesOutput> {
     let commandes;
 
-    if (input.pieceId) {
+    if (input?.pieceId) {
       // Si un identifiant de pièce est fourni, filtrer les commandes par cette pièce
       commandes = await this.commandePieceRepository.findByPieceId(input.pieceId);
     } else {

@@ -2,17 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { GererStockPiecesUseCase } from './../../../application/use-cases/GererStockPieceUseCase';
-import { InMemoryStockRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryStockRepository';
-import { InMemoryPieceRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryPieceRepository';
+import { gererStockPiecesUseCase } from '../../../infrastructure/factories/GererStockPiecesFactory';
 
 export const gererStockCLI = async () => {
   console.log(chalk.green('\n📦 Gestion du stock de pièces détachées\n'));
-
-  // Instanciation des repositories en mémoire
-  const stockRepo = new InMemoryStockRepository();
-  const pieceRepo = new InMemoryPieceRepository();
-  const useCase = new GererStockPiecesUseCase(stockRepo, pieceRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -38,7 +31,7 @@ export const gererStockCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await gererStockPiecesUseCase.execute({
       pieceId: parseInt(reponses.pieceId),
       quantite: parseInt(reponses.quantite),
       seuilAlerte: reponses.seuilAlerte ? parseInt(reponses.seuilAlerte) : undefined

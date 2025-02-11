@@ -24,7 +24,7 @@ export interface GererProfilConducteurOutput {
  * Use Case pour la gestion du profil des conducteurs.
  */
 export class GererProfilConducteurUseCase {
-  constructor(private conducteurRepository: IConducteurRepository) {}
+  constructor(private readonly conducteurRepository: IConducteurRepository) {}
 
   /**
    * Récupère tous les conducteurs enregistrés.

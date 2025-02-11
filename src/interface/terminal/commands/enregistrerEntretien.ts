@@ -2,15 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { EnregistrerEntretienUseCase } from './../../../application/use-cases/EnregistrerEntretienUseCase';
-import { InMemoryEntretienRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryEntretienRepository';
+import { enregistrerEntretienUseCase } from '../../../infrastructure/factories/EnregistrerEntretienFactory';
 
 export const enregistrerEntretienCLI = async () => {
   console.log(chalk.green('\n🛠️ Enregistrement d\'un entretien réalisé\n'));
-
-  // Instanciation des repositories en mémoire
-  const entretienRepo = new InMemoryEntretienRepository();
-  const useCase = new EnregistrerEntretienUseCase(entretienRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -47,7 +42,7 @@ export const enregistrerEntretienCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await enregistrerEntretienUseCase.execute({
       entretienId: parseInt(reponses.entretienId),
       dateRealisee: new Date(reponses.dateRealisee),
       cout: parseFloat(reponses.cout),

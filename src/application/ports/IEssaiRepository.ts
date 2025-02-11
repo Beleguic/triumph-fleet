@@ -1,5 +1,3 @@
-// src/application/ports/IEssaiRepository.ts
-
 import { Essai } from '../../domain/entities/Essai';
 
 /**
@@ -33,4 +31,11 @@ export interface IEssaiRepository {
    * @returns Une promesse contenant un tableau d'Essai.
    */
   findAll(): Promise<Essai[]>;
+
+  /**
+   * Supprime un essai par son identifiant.
+   * @param id L'identifiant de l'essai à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  delete(id: number): Promise<boolean>;
 }

@@ -1,8 +1,6 @@
-// src/application/use-cases/PasserCommandePieceUseCase.ts
-
-import { CommandePiece } from '../../domain/entities/CommandePiece';
-import { IPieceRepository } from '../ports/IPieceRepository';
 import { ICommandePieceRepository } from '../ports/ICommandePieceRepository';
+import { IPieceRepository } from '../ports/IPieceRepository';
+import { CommandePiece } from '../../domain/entities/CommandePiece';
 
 /**
  * DTO d'entrée pour passer une commande de pièces détachées.
@@ -23,17 +21,20 @@ export interface PasserCommandePieceOutput {
   commande: CommandePiece;
 }
 
-
-// src/application/use-cases/PasserCommandePieceUseCase.ts
-
-
-
+/**
+ * Use Case pour passer une commande de pièces détachées.
+ */
 export class PasserCommandePieceUseCase {
   constructor(
     private readonly pieceRepository: IPieceRepository,
     private readonly commandePieceRepository: ICommandePieceRepository
   ) {}
 
+  /**
+   * Exécute le use case pour passer une commande de pièce.
+   * @param input Données d'entrée contenant les informations de la commande.
+   * @returns La commande enregistrée.
+   */
   public async execute(input: PasserCommandePieceInput): Promise<PasserCommandePieceOutput> {
     // Récupération de la pièce commandée
     const piece = await this.pieceRepository.findById(input.pieceId);

@@ -2,19 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { PlanifierEssaiMotoUseCase } from '../../../application/use-cases/PlanifierEssaiMotoUseCase';
-import { InMemoryEssaiRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryEssaiRepository';
-import { InMemoryMotoRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryMotoRepository';
-import { InMemoryConducteurRepository } from '../../../infrastructure/adapters/database/in-memory/InMemoryConducteurRepository';
+import { planifierEssaiMotoUseCase } from '../../../infrastructure/factories/PlanifierEssaiMotoFactory';
 
 export const planifierEssaiMotoCLI = async () => {
   console.log(chalk.green('\n🏍️ Planification d\'un essai moto\n'));
-
-  // Instanciation des repositories en mémoire
-  const essaiRepo = new InMemoryEssaiRepository();
-  const motoRepo = new InMemoryMotoRepository();
-  const conducteurRepo = new InMemoryConducteurRepository();
-  const useCase = new PlanifierEssaiMotoUseCase(essaiRepo, motoRepo, conducteurRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -62,7 +53,7 @@ export const planifierEssaiMotoCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await planifierEssaiMotoUseCase.execute({
       motoId: parseInt(reponses.motoId),
       conducteurId: parseInt(reponses.conducteurId),
       dateDebut: new Date(reponses.dateDebut),

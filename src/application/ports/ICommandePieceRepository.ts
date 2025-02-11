@@ -1,5 +1,3 @@
-// src/application/ports/ICommandePieceRepository.ts
-
 import { CommandePiece } from '../../domain/entities/CommandePiece';
 
 /**
@@ -40,4 +38,11 @@ export interface ICommandePieceRepository {
    * @returns Une promesse contenant un tableau de CommandePiece pour cette pièce.
    */
   findByPieceId(pieceId: number): Promise<CommandePiece[]>;
+
+  /**
+   * Supprime une commande de pièce par son identifiant.
+   * @param id L'identifiant de la commande à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  delete(id: number): Promise<boolean>;
 }

@@ -1,5 +1,3 @@
-// src/application/use-cases/EnregistrerEssaiMotoUseCase.ts
-
 import { Essai } from '../../domain/entities/Essai';
 import { IEssaiRepository } from '../ports/IEssaiRepository';
 
@@ -20,14 +18,11 @@ export interface EnregistrerEssaiMotoOutput {
   essai: Essai;
 }
 
-// src/application/use-cases/EnregistrerEssaiMotoUseCase.ts
-
-
-
+/**
+ * Use Case pour enregistrer un essai terminé.
+ */
 export class EnregistrerEssaiMotoUseCase {
-  constructor(
-    private readonly essaiRepository: IEssaiRepository
-  ) {}
+  constructor(private readonly essaiRepository: IEssaiRepository) {}
 
   /**
    * Exécute le use case pour enregistrer un essai terminé.

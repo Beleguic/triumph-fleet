@@ -40,4 +40,11 @@ export interface IStockRepository {
    * @returns Une promesse contenant un tableau de Stock.
    */
   findAll(): Promise<Stock[]>;
+
+   /**
+   * Supprime un stock par son identifiant.
+   * @param id L'identifiant du stock à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+   delete(id: number): Promise<boolean>;
 }

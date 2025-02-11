@@ -4,7 +4,7 @@
  * Interface décrivant les propriétés nécessaires pour créer un conducteur.
  */
 export interface ConducteurProps {
-    id?: string;             // Identifiant optionnel, généré par la base de données
+    id?: number;             // Identifiant optionnel, généré par la base de données
     nom: string;             // Nom du conducteur
     permis: string;          // Numéro ou type de permis du conducteur
     experienceAnnees: number; // Nombre d'années d'expérience du conducteur

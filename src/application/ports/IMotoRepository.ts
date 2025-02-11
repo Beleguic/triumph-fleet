@@ -1,5 +1,3 @@
-// src/application/ports/IMotoRepository.ts
-
 import { Moto } from '../../domain/entities/Moto';
 
 /**
@@ -33,4 +31,11 @@ export interface IMotoRepository {
    * @returns Une promesse contenant un tableau de Moto.
    */
   findAll(): Promise<Moto[]>;
+
+  /**
+   * Supprime une moto par son identifiant.
+   * @param id L'identifiant de la moto à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  delete(id: number): Promise<boolean>;
 }

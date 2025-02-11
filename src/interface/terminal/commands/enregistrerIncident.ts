@@ -2,21 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { EnregistrerIncidentUseCase } from './../../../application/use-cases/EnregistrerIncidentUseCase';
-import { InMemoryIncidentRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryIncidentRepository';
-import { InMemoryEssaiRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryEssaiRepository';
-import { InMemoryConducteurRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryConducteurRepository';
-import { InMemoryMotoRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryMotoRepository';
+import { enregistrerIncidentUseCase } from '../../../infrastructure/factories/EnregistrerIncidentFactory';
 
 export const enregistrerIncidentCLI = async () => {
   console.log(chalk.green('\n⚠️ Enregistrement d\'un incident\n'));
-
-  // Instanciation des repositories en mémoire
-  const incidentRepo = new InMemoryIncidentRepository();
-  const essaiRepo = new InMemoryEssaiRepository();
-  const conducteurRepo = new InMemoryConducteurRepository();
-  const motoRepo = new InMemoryMotoRepository();
-  const useCase = new EnregistrerIncidentUseCase(incidentRepo, essaiRepo, conducteurRepo, motoRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -77,7 +66,7 @@ export const enregistrerIncidentCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await enregistrerIncidentUseCase.execute({
       essaiId: reponses.associerEssai ? parseInt(reponses.essaiId) : undefined,
       conducteurId: reponses.associerConducteur ? parseInt(reponses.conducteurId) : undefined,
       motoId: reponses.associerMoto ? parseInt(reponses.motoId) : undefined,

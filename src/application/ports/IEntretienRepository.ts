@@ -1,5 +1,3 @@
-// src/application/ports/IEntretienRepository.ts
-
 import { Entretien } from '../../domain/entities/Entretien';
 
 /**
@@ -33,4 +31,11 @@ export interface IEntretienRepository {
    * @returns Une promesse contenant un tableau d'Entretien.
    */
   findAll(): Promise<Entretien[]>;
+
+  /**
+   * Supprime un entretien par son identifiant.
+   * @param id L'identifiant de l'entretien à supprimer.
+   * @returns Une promesse contenant `true` si la suppression a réussi, sinon `false`.
+   */
+  delete(id: number): Promise<boolean>;
 }

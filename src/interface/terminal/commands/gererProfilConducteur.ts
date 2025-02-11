@@ -1,6 +1,8 @@
+// src/interface/commands/gererProfilConducteur.ts
+
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { gererProfilConducteurUseCase } from '../../../infrastructure/factories/ConducteurFactory';
+import { gererProfilConducteurUseCase } from '../../../infrastructure/factories/GererProfilConducteurFactory';
 
 export const gererProfilConducteurCLI = async () => {
   console.log(chalk.green('\n🚗 Gestion du profil des conducteurs\n'));
@@ -22,7 +24,7 @@ export const gererProfilConducteurCLI = async () => {
 
   if (actionReponse.action === 'Retour') return;
 
-  // ✅ Appel de `getAllConducteurs()` au lieu d'accéder directement au repository
+  // ✅ Appel du Use Case pour récupérer tous les conducteurs
   if (actionReponse.action === 'Consulter tous les conducteurs') {
     const conducteurs = await gererProfilConducteurUseCase.getAllConducteurs();
     if (conducteurs.length === 0) {
@@ -76,6 +78,7 @@ export const gererProfilConducteurCLI = async () => {
   ]);
 
   try {
+    // Exécuter le use case avec les valeurs fournies par l'utilisateur
     const result = await gererProfilConducteurUseCase.execute({
       id: reponses.id ? parseInt(reponses.id) : undefined,
       nom: reponses.nom,

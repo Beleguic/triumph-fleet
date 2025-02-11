@@ -2,17 +2,10 @@
 
 import inquirer from 'inquirer';
 import chalk from 'chalk';
-import { PasserCommandePieceUseCase } from './../../../application/use-cases/PasserCommandePieceUseCase';
-import { InMemoryPieceRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryPieceRepository';
-import { InMemoryCommandePieceRepository } from './../../../infrastructure/adapters/database/in-memory/InMemoryCommandePieceRepository';
+import { passerCommandePieceUseCase } from '../../../infrastructure/factories/PasserCommandePieceFactory';
 
 export const passerCommandePieceCLI = async () => {
   console.log(chalk.green('\n🛒 Passer une commande de pièces détachées\n'));
-
-  // Instanciation des repositories en mémoire
-  const pieceRepo = new InMemoryPieceRepository();
-  const commandeRepo = new InMemoryCommandePieceRepository();
-  const useCase = new PasserCommandePieceUseCase(pieceRepo, commandeRepo);
 
   // Demander les informations nécessaires à l'utilisateur
   const reponses = await inquirer.prompt([
@@ -50,7 +43,7 @@ export const passerCommandePieceCLI = async () => {
 
   try {
     // Exécuter le use case avec les valeurs fournies par l'utilisateur
-    const result = await useCase.execute({
+    const result = await passerCommandePieceUseCase.execute({
       pieceId: parseInt(reponses.pieceId),
       dateCommande: new Date(),
       quantite: parseInt(reponses.quantite),
